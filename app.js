@@ -80,7 +80,8 @@ app.all('*', (req, res, next)=>{
 // Error handling middleware
 app.use((err, req, res, next)=>{
     const {statusCode=500, message='Something went wrong!'} = err;
-    res.status(statusCode).send(message);
+    if(!err.message) err.message = 'Oh No, something went wrong!';
+    res.status(statusCode).render('error', { err });
 })
 
 app.listen(3000, ()=>{
