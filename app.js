@@ -33,16 +33,27 @@ app.get('/campgrounds', async (req, res)=>{
     res.render('campgrounds/index', {campgrounds});
 })
 
-app.post('/campgrounds', async(req, res)=>{
-    // We can access it like below as we are sending the data by grouping with campground
-    const campground = new Campground(req.body.campground);
-    await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`)
+app.post('/campgrounds', async(req, res, next)=>{
+    try {
+        const campground = new Campground(req.body.campground);
+        await campground.save();
+        res.redirect(`/campgrounds/${campground._id}`)
+    }
+    catch(e){
+        next(e);
+    }
 })
 
 app.get('/campgrounds/new', (req, res)=>{
     res.render('campgrounds/new');
 })
+
+app.get('/campgrounds/:id/edit', async (req, res)=>{
+    const id = req.params.id;
+    const campground = await Campground.findById(id);
+    res.render('campgrounds/edit', {campground});
+})
+
 
 app.get('/campgrounds/:id', async(req, res)=>{
     const id = req.params.id;
@@ -62,12 +73,9 @@ app.delete('/campgrounds/:id', async(req, res)=>{
     res.redirect('/campgrounds')
 })
 
-
-
-app.get('/campgrounds/:id/edit', async (req, res)=>{
-    const id = req.params.id;
-    const campground = await Campground.findById(id);
-    res.render('campgrounds/edit', {campground});
+// Error handling middleware
+app.use((err, req, res, next)=>{
+    res.send('Oh boy, something went wrong!');
 })
 
 app.listen(3000, ()=>{
