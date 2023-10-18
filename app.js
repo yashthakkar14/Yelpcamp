@@ -41,7 +41,7 @@ app.post('/campgrounds', catchAsync(async(req, res, next)=>{
     // if(!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
 
     const campgroundSchema = Joi.object({
-        // We are having the campground key in body where we are grouing everything with campground in the html new campground form.
+        // We are having the campground key in body where we are grouping everything with campground in the html new campground form.
         campground: Joi.object({
             title: Joi.string().required(),
             price: Joi.number().required().min(0),
