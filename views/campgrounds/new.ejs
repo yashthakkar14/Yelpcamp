@@ -3,30 +3,46 @@
     <h1 class="text-center">New Campground</h1>
     <!-- offset is to center the column as we have col 6 so we can offset it to 3 -->
     <div class="col-6 offset-3">
-        <form action="/campgrounds" method="POST">
+        <form action="/campgrounds" method="POST" class="validated-form" novalidate>
             <div class="mb-3">
                 <label class="form-label" for="title">Title: </label>
                 <!-- Below is how we can group content together, in the request.body we can access title in the campground dictionary -->
-                <input class="form-control" type="text" name="campground[title]" id="title">
+                <input class="form-control" type="text" name="campground[title]" id="title" required>
+                <!-- The below div is to good a feedback when the text entered in the text box is valid -->
+                <div class="valid-feedback">
+                    Looks Good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location: </label>
-                <input class="form-control" type="text" name="campground[location]" id="location">
+                <input class="form-control" type="text" name="campground[location]" id="location" required>
+                <div class="valid-feedback">
+                    Looks Good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url: </label>
-                <input class="form-control" type="text" name="campground[image]" id="image">
+                <input class="form-control" type="text" name="campground[image]" id="image" required>
+                <div class="valid-feedback">
+                    Looks Good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Campground Price: </label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="price-label">$</span>
-                    <input id="price" type="text" name="campground[price]"  class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price-label">
+                    <input id="price" type="text" name="campground[price]"  class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price-label" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description: </label>
-                <textarea class="form-control" type="text" name="campground[description]" id="description"></textarea>
+                <textarea class="form-control" type="text" name="campground[description]" id="description" required></textarea>
+                <div class="valid-feedback">
+                    Looks Good!
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Add Campground</button>
