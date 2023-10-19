@@ -8,7 +8,14 @@ const CampgroundSchema = new Schema({
     image : String,
     price: Number,
     description: String,
-    location: String
+    location: String,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            // The 'Review' here is the name of the model
+            ref: 'Review'
+        }
+    ]
 })
 
 // Obviously, we can also store the below result in a variable and then export it
