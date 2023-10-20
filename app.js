@@ -3,7 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const Joi = require('joi');
-const {campgroundSchema} = require('./schemas.js')
+// The below schemas are the Joi schema for the purpose of validation
+const {campgroundSchema, reviewSchema} = require('./schemas.js')
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
@@ -13,6 +14,18 @@ const Review = require('./models/review');
 const validateCampground = (req, res, next) => {
     
     const {error} = campgroundSchema.validate(req.body);
+    if(error){
+        // We need to do the below as details is basically an array of objects.
+        const msg = error.details.map(el=>el.message).join(',')
+        throw new ExpressError(msg, 400)
+    }
+    else{
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const {error} = reviewSchema.validate(req.body);
     if(error){
         // We need to do the below as details is basically an array of objects.
         const msg = error.details.map(el=>el.message).join(',')
@@ -88,7 +101,7 @@ app.delete('/campgrounds/:id', catchAsync(async(req, res)=>{
     res.redirect('/campgrounds')
 }));
 
-app.post('/campgrounds/:id/reviews', catchAsync(async (req, res)=>{
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res)=>{
     const campground = await Campground.findById(req.params.id);
     const review = new Review(req.body.review);
     campground.reviews.push(review);
