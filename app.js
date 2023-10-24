@@ -48,7 +48,7 @@ app.use(flash());
 app.use((req, res, next)=>{
     // We will have access to res.locals.success in the template and we don't have to pass it through from our render call.
     res.locals.success = req.flash('success');
-    req.locals.error = req.flash('error');
+    res.locals.error = req.flash('error');
     next();
 })
 
