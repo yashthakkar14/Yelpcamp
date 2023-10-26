@@ -57,6 +57,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next)=>{
     // We will have access to res.locals.success in the template and we don't have to pass it through from our render call.
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
