@@ -67,7 +67,7 @@ app.get('/', (req, res)=>{
     res.render('home')
 })
 
-// Including all the campgrounds Routes.
+// Including the user, camground and review routes.
 app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes)
 app.use('/campgrounds/:id/reviews', reviewRoutes)

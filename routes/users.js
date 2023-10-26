@@ -23,8 +23,6 @@ router.post('/register', catchAsync(async (req, res)=>{
             req.flash('success', 'Welcome to Yelpcamp!');
             return res.redirect('/campgrounds');
         })
-        // req.flash('success', 'Welcome to Yelpcamp!');
-        // return res.redirect('/campgrounds');
     } catch(e){
         req.flash('error', e.message);
         res.redirect('/register');
