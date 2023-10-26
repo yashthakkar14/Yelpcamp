@@ -6,6 +6,9 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
+const passport = require('passport');
+const LocalStrategy = require('passport-local')
+const User = require('./models/user');
 
 // Importing campground and review routes.
 const campgrounds = require('./routes/campgrounds');
@@ -45,11 +48,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionConfig))
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next)=>{
     // We will have access to res.locals.success in the template and we don't have to pass it through from our render call.
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
+})
+
+app.get('/fakeUser', async(req, res)=>{
+    // We are creating the new user here and providing the email and username fields.
+    const user = new User({email: 'yash@gmail.com', username: 'yash'})
+    // We are providing the password in the below register method.
+    const newUser = await User.register(user, 'yashthakkar')
+    res.send(newUser);
 })
 
 app.get('/', (req, res)=>{
