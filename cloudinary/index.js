@@ -9,9 +9,11 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
     cloudinary,
+    params:{
+        folder: 'YelpCamp',
+        allowedFormats: ['jpeg', 'png', 'jpg']
+    }
     // Name of the folder which will be created in cloudinary
-    folder: 'YelpCamp',
-    allowedFormats: ['jpeg', 'png', 'jpg']
 })
 
 module.exports = {

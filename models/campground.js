@@ -6,7 +6,12 @@ const Schema = mongoose.Schema;
 // We don't need to do mongoose.Schema here as we have it stored in a variable named Schema
 const CampgroundSchema = new Schema({
     title: String,
-    image : String,
+    images : [
+        {
+            url: String,
+            filename: String
+        }
+    ],
     price: Number,
     description: String,
     location: String,
