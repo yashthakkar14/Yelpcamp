@@ -29,7 +29,7 @@ module.exports.loginForm = (req, res)=>{
 }
 
 module.exports.login = (req, res)=>{
-    req.flash('success', 'Welcome Back!');
+    req.flash('success', `Welcome Back ${req.user.username}!`);
     res.redirect('/campgrounds');
 }
 
