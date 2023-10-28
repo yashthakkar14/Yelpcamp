@@ -3,7 +3,7 @@
     <h1 class="text-center">New Campground</h1>
     <!-- offset is to center the column as we have col 6 so we can offset it to 3 -->
     <div class="col-6 offset-3">
-        <form action="/campgrounds" method="POST" class="validated-form" novalidate>
+        <form action="/campgrounds" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title: </label>
                 <!-- Below is how we can group content together, in the request.body we can access title in the campground dictionary -->
@@ -20,13 +20,14 @@
                     Looks Good!
                 </div>
             </div>
-            <div class="mb-3">
+            <input type="file" name="image" multiple>
+            <!-- <div class="mb-3">
                 <label class="form-label" for="image">Image Url: </label>
                 <input class="form-control" type="text" name="campground[image]" id="image" required>
                 <div class="valid-feedback">
                     Looks Good!
                 </div>
-            </div>
+            </div> -->
             <div class="mb-3">
                 <label class="form-label" for="price">Campground Price: </label>
                 <div class="input-group mb-3">
