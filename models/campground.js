@@ -3,14 +3,19 @@ const Review = require('./review');
 // We are storing this in a separate variable just to shorten it up as we will need to make use of mongoose.Schema multiple times later on.
 const Schema = mongoose.Schema;
 
-// We don't need to do mongoose.Schema here as we have it stored in a variable named Schema
+
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+})
+
+ImageSchema.virtual('thumbnail').get(function(){
+    this.url.replace('/upload', '/upload/w_200');
+})
 const CampgroundSchema = new Schema({
     title: String,
     images : [
-        {
-            url: String,
-            filename: String
-        }
+        ImageSchema
     ],
     price: Number,
     description: String,
