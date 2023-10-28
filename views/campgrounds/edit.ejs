@@ -1,4 +1,6 @@
 <% layout('layouts/boilerplate') %>
+
+
 <div class="row">
     <h1 class="text-center">Edit Campground</h1>
     <!-- offset is to center the column as we have col 6 so we can offset it to 3 -->
@@ -42,12 +44,21 @@
                 <input class="form-control" type="file" id="image" multiple name="image">
             </div>
             <div class="mb-3">
+                <h5 class="mb-3">Select the images to be deleted below: </h5>
                 <% campground.images.forEach(function(img,i){ %>
-                    <img class="img-thumbnail" src="<%= img.thumbnail %>" alt="">
+                    <div class="col-md-3 d-inline-block">
+                        <div class="form-check-inline image-checkbox">
+                            <input type="checkbox"  style="display:none" class="form-check-input" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>">
+                            <label class="form-check-label" for="image-<%= i %>">
+                                <img src="<%= img.thumbnail %>" alt="#" class="img-fluid">
+                            </label>
+                        </div>
+                    </div>
+                    <!-- <img class="img-thumbnail" src="<%= img.thumbnail %>" alt="">
                     <div class="form-check-inline">
                         <input type="checkbox" name="deleteImages[]" value="<%= img.filename %>" id="image-<%= i %>">
                     </div>
-                    <label for="image-<%= i %>">Delete?</label>
+                    <label for="image-<%= i %>">Delete?</label> -->
                 <% }) %>
             </div>
             <div class="mb-3">
@@ -57,3 +68,19 @@
         <a href="/campgrounds/<%= campground._id %>">Back to Campground</a>
     </div>
 </div>
+<script>
+    function highlightImage(){
+        const parent = this.closest('.form-check-inline');
+        const image = parent.querySelector('img');
+        if(this.checked){
+            image.style.border = "2px solid blue";
+        }
+        else{
+            image.style.border = "None";
+        }
+    }
+    const checkboxes = document.querySelectorAll('.form-check-input')
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('click', highlightImage);
+    });
+</script>
