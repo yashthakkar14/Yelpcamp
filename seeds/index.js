@@ -23,7 +23,7 @@ const seedDB = async() =>{
     await Campground.deleteMany({})
     // const c = new Campground({title : 'purple field'})
     // await c.save();
-    for(let i=0; i<50; i++){
+    for(let i=0; i<200; i++){
         // There are 1000 cities in the cities array
         const random1000 = Math.floor(Math.random()*1000)
         const price = Math.floor(Math.random()*20) + 10;

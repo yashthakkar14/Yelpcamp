@@ -12,6 +12,9 @@ const ImageSchema = new Schema({
 ImageSchema.virtual('thumbnail').get(function(){
     return this.url.replace('/upload', '/upload/h_500,w_800');
 })
+
+const opts = {toJSON: {virtuals: true}}
+
 const CampgroundSchema = new Schema({
     title: String,
     images : [
@@ -42,6 +45,11 @@ const CampgroundSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts)
+
+CampgroundSchema.virtual('properties.popupMarkup').get(function(){
+    return `
+    <strong><a href="/campgrounds/${this._id}">${this.title}</a></strong><p>${this.description.substring(0,20)}...`
 })
 
 // The below middleware will run after we delete the campground
