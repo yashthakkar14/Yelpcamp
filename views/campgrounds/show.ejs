@@ -107,6 +107,7 @@
 
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const campground = <%- JSON.stringify(campground) %>;
 </script>
 <!-- We cannot make use of the ejs template variables in the below script, so we are defining the mapbox token above this script with the help of another script in order to access the mapbox token -->
 <script src="/js/showPageMap.js"></script>
