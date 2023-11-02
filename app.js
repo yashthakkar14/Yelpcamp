@@ -14,6 +14,9 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local')
 const User = require('./models/user');
+const helmet = require('helmet');
+
+const mongoSanitize = require('express-mongo-sanitize');
 
 // Importing campground, review and userRoutes routes.
 const campgroundRoutes = require('./routes/campgrounds');
@@ -31,11 +34,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
 })
 
 const sessionConfig = {
+    name: 'session',
     secret: 'thisshouldbeabettersecret',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        // secure: true, // Cookies are configured only in HTTPS
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         // 1000 milliseconds * 60 seconds * 60 minutes * 24 hours * 7 days a week
         maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7
@@ -53,6 +58,11 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionConfig))
 app.use(flash());
+app.use(helmet());
+
+app.use(mongoSanitize({
+    replaceWith: '_'
+}))
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -62,6 +72,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next)=>{
     // We will have access to res.locals.success in the template and we don't have to pass it through from our render call.
+    console.log(req.query);
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
